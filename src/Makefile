@@ -1,8 +1,8 @@
 CFLAGS="-march=native -O2 -pipe"
 linklib=-lreadline
 CC=gcc ${linklib}
-headers=exec.h parsing.h fshell.h
-sources=exec.c parsing.c fshell.c
+headers=builtin.h exec.h parsing.h fshell.h
+sources=builtin.c exec.c parsing.c fshell.c
 name=fshell
 DEFAULT_MAKE=${CC} ${headers} ${sources} -o ${name}
 

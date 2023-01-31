@@ -11,6 +11,7 @@
 #include "fshell.h"
 #include "parsing.h"
 #include "exec.h"
+#include "builtin.h"
 
 int main()
 {
@@ -34,9 +35,15 @@ int main()
 	    sprintf(READLINE_OUTPUT, "\033[;32;1m%s\033[0m \033[;32;1m[\033[0m %s \033[;32;1m]\033[0m\n%s", pwd->pw_name,path,">>> ");
 	else sprintf(READLINE_OUTPUT, "\033[;31;1m%s\033[0m \033[;31;1m[\033[0m %s \033[;31;1m]\033[0m\n%s", pwd->pw_name,path,">>> ");
 	input = readline(READLINE_OUTPUT);
+	if(!strcmp(input,"exit"))
+	    exit(0);
 
-	parsing_normally(input, array);
-	run_cmd(array);
+	short run_num = check_builtin(input);
+	switch(run_num) {
+	case -1:
+	    parsing_normally(input, array);
+	    run_cmd(array);
+	}
 	add_history(input);
 	write_history(history_file_path);
 	free(input);
