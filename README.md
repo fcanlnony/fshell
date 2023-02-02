@@ -1,5 +1,3 @@
-# fshell
-
 # Fcanlnony's Shell
 
 ## Introduction
