@@ -1,8 +1,8 @@
 CFLAGS="-march=native -O2 -pipe"
 LINKLIB=-lreadline
 CC=gcc -std=c17 ${LINKLIB}
-HEADERS= alias.h exec.h parsing.h fshell.h
-SOURCES= alias.c exec.c parsing.c fshell.c
+HEADERS= builtin.c alias.h exec.h parsing.h fshell.h
+SOURCES= builtin.h alias.c exec.c parsing.c fshell.c
 NAME= fshell
 
 all:

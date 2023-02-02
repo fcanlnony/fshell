@@ -13,6 +13,7 @@
 #include "parsing.h"
 #include "exec.h"
 #include "alias.h"
+#include "builtin.h"
 
 char *array[] = {NULL},*arrayA[] = {NULL},*arrayB[] = {NULL};
 static jmp_buf env;
@@ -55,6 +56,30 @@ int main()
 	    if(check_alias_command(tmp4, &aVariable) != -1)
 	    cover_alias_command(tmp5, &aVariable,check_alias_command(tmp4, &aVariable));
 	    else upload_alias(tmp4, tmp5, &aVariable);
+	} else if(check_environment_command(input) != -1) {
+	    short num = check_environment_command(input);
+	    if(num == 1) {
+		char *tmp[2];
+		tmp[0] = strtok(input, " ");
+		tmp[1] = strtok(NULL,"");
+		char *tmp2 = malloc(sizeof(char)*strlen(tmp[1]));
+		strcpy(tmp2,tmp[1]);
+		putenv(tmp2);
+	    } else if(num == 2) {
+		clearenv();
+	    } else if(num == 3) {
+		char tmp[len-strlen("showenv ")];
+		memset(tmp,0x00,strlen(tmp));
+		strcpy(tmp,input+strlen("showenv "));
+		if(getenv(tmp) != NULL)
+		    puts(getenv(tmp));
+		else printf("fshell : %s : Invalid environment variables\n",tmp);
+	    } else if(num == 4) {
+		char *tmp = malloc(sizeof(char)*(len-strlen("removeenv ")));
+		memset(tmp,0x00,strlen(tmp));
+		strcpy(tmp,input+strlen("removeenv "));
+		unsetenv(tmp);
+	    }
 	} else {
 	    char tmp1[len];
 	    memset(tmp1,0x00,len);
