@@ -15,7 +15,7 @@
 #include "alias.h"
 #include "builtin.h"
 
-char *array[] = {NULL},*arrayA[] = {NULL},*arrayB[] = {NULL};
+char *array[] = {NULL};
 static jmp_buf env;
 
 static void siginthandler()
@@ -26,8 +26,6 @@ static void siginthandler()
 int main()
 {
     struct passwd *pwd = getpwuid(getuid());
-    char display_readline[13];
-    sprintf(display_readline,"%s","fshell >>> ");
     char history_file_path[154];
     if(!strcmp(pwd->pw_name,"root"))
 	sprintf(history_file_path,"/home/%s/.fshell_history",pwd->pw_name);
@@ -40,7 +38,7 @@ int main()
     setjmp(env);
     while (1) {
 	signal(SIGINT,siginthandler);
-	char *input = readline(display_readline);
+	char *input = readline("fshell >>> ");
 	if(strcmp(input,"exit") == 0)
 	    exit(0);
 	add_history(input);
@@ -96,8 +94,14 @@ int main()
 		strcat(tmp3,tmp);
 		strcpy(input,tmp3);
 	    }
-	    parsing_nomally(input,array);
-	    exec_cmd_nomally(array);
+	    if (check_pipe(input) == 0) {
+		char *arrayA[20] = {NULL},*arrayB[20] = {NULL};
+		parsing_pipe(input, arrayA, arrayB);
+		exec_pipe(arrayA, arrayB);
+	    } else {
+		parsing_nomally(input,array);
+		exec_cmd_nomally(array);
+	    }
 	}
 	write_history(history_file_path);
 	free(input);

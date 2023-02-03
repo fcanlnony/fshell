@@ -15,3 +15,10 @@ short check_environment_command(char *string)
 	return 4;
     else return -1;
 }
+
+short check_pipe(char *string)
+{
+    if(strchr(string,'|') != NULL)
+	return 0;
+    else return -1;
+}

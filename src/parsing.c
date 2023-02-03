@@ -10,3 +10,18 @@ void parsing_nomally(char *string,char **array)
     while(array[i] != NULL)
         array[++i] = strtok(NULL," ");
 }
+
+void parsing_pipe(char *string,char **arrayA,char **arrayB)
+{
+    char *tmp1 = NULL,*tmp2 = NULL;
+    tmp1 = strtok(string,"|");
+    tmp2 = strtok(NULL,"");
+    memmove(tmp2,tmp2+strlen(" "),strlen(tmp2));
+    short i = 1,k = 1;
+    for(arrayA[0] = strtok(tmp1," ");i < 20;i++) {
+	arrayA[i] = strtok(NULL," ");
+    }
+    for(arrayB[0] = strtok(tmp2," ");k < 20;k++) {
+	arrayB[k] = strtok(NULL," ");
+    }
+}
