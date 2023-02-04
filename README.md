@@ -4,7 +4,7 @@
 <br>fshell is a simple shell write in C,it's designed to be easy to read.
 #
 # Feature
-<br>*Built-in commands(export,alias,unalias)
+<br>*Built-in commands(export,alias,unalias,cd)
 <br>*Allow to change environment variables
 <br>*Pipe,History functions.
 
