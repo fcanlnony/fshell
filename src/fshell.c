@@ -97,7 +97,7 @@ int main()
 		}
 		free(tmp);
 	    } else if(num == 6) {
-		char *tmp = malloc(sizeof(char)*(len-strlen("cd ")));
+		char tmp[len-strlen("cd ")];
 		strcpy(tmp,input+strlen("cd "));
 		cd_command(tmp,pwd->pw_name);
 	    }
