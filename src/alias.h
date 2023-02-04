@@ -15,5 +15,6 @@ extern short upload_alias(char *name,char *string,alias_t *point);
 extern char *getalias_command(char *name,alias_t *point);
 extern short check_alias_command(char *name,alias_t *point);
 extern void cover_alias_command(char *string,alias_t *point,short num);
+extern void unalias_command(alias_t *point,short num);
 
 #endif /*ALIAS_H*/

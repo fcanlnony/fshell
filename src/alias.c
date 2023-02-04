@@ -61,3 +61,19 @@ void cover_alias_command(char *string,alias_t *point,short num)
     point->alias_command[num] = string;
 }
 
+void unalias_command(alias_t *point,short num)
+{
+    short i = num + 1;
+    if(point->alias_name[i] != NULL) {
+	while(point->alias_name[i] != NULL) {
+	    point->alias_name[num] = point->alias_name[i];
+	    point->alias_command[num] = point->alias_command[i];
+	    num++;
+	    i++;
+	}
+    } else {
+	point->alias_name[num] = NULL;
+	point->alias_command[num] = NULL;
+    }
+    point->alias_num -= 1;
+}

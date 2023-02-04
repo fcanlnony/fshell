@@ -13,6 +13,8 @@ short check_environment_command(char *string)
 	return 3;
     else if(!strncmp(string,"removeenv",strlen("removeenv")))
 	return 4;
+    else if(!strncmp(string,"unalias",strlen("unalias")))
+	return 5;
     else return -1;
 }
 

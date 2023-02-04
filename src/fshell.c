@@ -33,7 +33,6 @@ int main()
     read_history(history_file_path);
     alias_t aVariable;
     init_alias(&aVariable);
-    char *tmp4=malloc(sizeof(char)*1024),*tmp5=malloc(sizeof(char)*1024);
     int len = 0;
     setjmp(env);
     while (1) {
@@ -49,6 +48,9 @@ int main()
 	    memmove(tmp1, input+strlen("alias "), len);
 	    char *tmp2 = strtok(tmp1,"=");
 	    char *tmp3 = strtok(NULL,"");
+	    char *tmp4=malloc(sizeof(char)*strlen(tmp2)),*tmp5=malloc(sizeof(char)*strlen(tmp3));
+	    memset(tmp4,0x00,strlen(tmp4));
+	    memset(tmp5,0x00,strlen(tmp5));
 	    strcpy(tmp4,tmp2);
 	    strcpy(tmp5,tmp3);
 	    if(check_alias_command(tmp4, &aVariable) != -1)
@@ -77,6 +79,14 @@ int main()
 		memset(tmp,0x00,strlen(tmp));
 		strcpy(tmp,input+strlen("removeenv "));
 		unsetenv(tmp);
+	    } else if(num == 5) {
+		char *tmp = malloc(sizeof(char)*(len-strlen("unalias ")));
+		memset(tmp,0x00,strlen(tmp));
+		strcpy(tmp,input+strlen("unalias "));
+		short num_unalias = check_alias_command(tmp, &aVariable);
+		if(num_unalias != -1) {
+		    unalias_command(&aVariable, num_unalias);
+		}
 	    }
 	} else {
 	    char tmp1[len];
