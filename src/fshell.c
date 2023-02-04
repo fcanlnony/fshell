@@ -31,13 +31,20 @@ int main()
 	sprintf(history_file_path,"/home/%s/.fshell_history",pwd->pw_name);
     else strncpy(history_file_path,"/root/.fshell_history",strlen("/root/.fshell_history"));
     read_history(history_file_path);
+    char path_display[100];
     alias_t aVariable;
     init_alias(&aVariable);
     int len = 0;
     setjmp(env);
     while (1) {
 	signal(SIGINT,siginthandler);
-	char *input = readline("fshell >>> ");
+	char *display_readline = malloc(sizeof(char)*256);
+	memset(display_readline,0x00,strlen(display_readline));
+	getcwd(path_display,100);
+	if(strcmp(pwd->pw_name,"root"))
+	    sprintf(display_readline, "\033[1;32m%s\033[0m \033[1;32m[\033[0m %s \033[1;32m]\033[0m\n%s", pwd->pw_name,path_display,">>> ");
+	else sprintf(display_readline, "\033[1;31m%s\033[0m \033[1;31m[\033[0m %s \033[1;31m]\033[0m\n%s", pwd->pw_name,path_display,">>> ");
+	char *input = readline(display_readline);
 	if(strcmp(input,"exit") == 0)
 	    exit(0);
 	add_history(input);
@@ -121,5 +128,6 @@ int main()
 	}
 	write_history(history_file_path);
 	free(input);
+	free(display_readline);
     }
 }
