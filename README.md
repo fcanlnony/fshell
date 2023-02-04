@@ -4,9 +4,9 @@
 <br>fshell is a simple shell write in C,it's designed to be easy to read.
 #
 # Feature
-<br>*Built-in commands(export,alias,unalias,cd)
-<br>*Allow to change environment variables
-<br>*Pipe,History functions.
+* Built-in commands(export,alias,unalias,cd)</p>
+* Allow to change environment variables</p>
+* Pipe,History functions</p>
 
 ### Environment Variables
 <br>"export A=B" _Set A environment variable to B_
