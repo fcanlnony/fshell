@@ -79,6 +79,7 @@ int main()
 		memset(tmp,0x00,strlen(tmp));
 		strcpy(tmp,input+strlen("removeenv "));
 		unsetenv(tmp);
+		free(tmp);
 	    } else if(num == 5) {
 		char *tmp = malloc(sizeof(char)*(len-strlen("unalias ")));
 		memset(tmp,0x00,strlen(tmp));
@@ -87,6 +88,11 @@ int main()
 		if(num_unalias != -1) {
 		    unalias_command(&aVariable, num_unalias);
 		}
+		free(tmp);
+	    } else if(num == 6) {
+		char *tmp = malloc(sizeof(char)*(len-strlen("cd ")));
+		strcpy(tmp,input+strlen("cd "));
+		cd_command(tmp,pwd->pw_name);
 	    }
 	} else {
 	    char tmp1[len];
