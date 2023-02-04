@@ -39,7 +39,6 @@ short exec_pipe(char **arrayA,char **arrayB)
 	    fprintf(stderr, "fshell : %s : command not found.\n", arrayA[0]);
 	    wait(NULL);
 	}
-	wait(NULL);
     } else if(p > 0)
 	wait(NULL);
     return 0;
