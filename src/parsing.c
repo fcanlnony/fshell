@@ -15,7 +15,6 @@ void parsing_pipe(char *string,char **arrayA,char **arrayB)
 {
     char *tmp1 = strtok(string,"|");
     char *tmp2 = strtok(NULL,"");
-    //memmove(tmp2,tmp2+strlen(" "),strlen(tmp2));
     short i = 1,k = 1;
     for(arrayA[0] = strtok(tmp1," ");i < 20;i++) {
 	arrayA[i] = strtok(NULL," ");
