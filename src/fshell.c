@@ -15,7 +15,7 @@
 #include "alias.h"
 #include "builtin.h"
 
-char *array[] = {NULL};
+char *array[] = {NULL},*arrayA[20] = {NULL},*arrayB[20] = {NULL};
 static jmp_buf env;
 
 static void siginthandler()
@@ -118,7 +118,6 @@ int main()
 		strcpy(input,tmp3);
 	    }
 	    if (check_pipe(input) == 0) {
-		char *arrayA[20] = {NULL},*arrayB[20] = {NULL};
 		parsing_pipe(input, arrayA, arrayB);
 		exec_pipe(arrayA, arrayB);
 	    } else {
