@@ -69,14 +69,15 @@ int main()
 		char *tmp[2];
 		tmp[0] = strtok(input, " ");
 		tmp[1] = strtok(NULL,"");
-		char *tmp2 = malloc(sizeof(char)*strlen(tmp[1]));
-		strcpy(tmp2,tmp[1]);
-		putenv(tmp2);
+		if(tmp[1] != NULL) {
+		    char *tmp1 = malloc(sizeof(char)*strlen(tmp[1]));
+		    strcpy(tmp1,tmp[1]);
+		    putenv(tmp1);
+		}
 	    } else if(num == 2) {
 		clearenv();
 	    } else if(num == 3) {
 		char tmp[len-strlen("showenv ")];
-		memset(tmp,0x00,strlen(tmp));
 		strcpy(tmp,input+strlen("showenv "));
 		if(getenv(tmp) != NULL)
 		    puts(getenv(tmp));
