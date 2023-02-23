@@ -19,6 +19,8 @@ short check_environment_command(char *string)
 	return 5;
     else if(!strncmp(string,"cd",strlen("cd")))
 	return 6;
+    else if(!strncmp(string,"list",strlen("list")))
+	return 7;
     else return -1;
 }
 
