@@ -58,14 +58,16 @@ int main()
 	    memmove(tmp1, input+strlen("alias "), len);
 	    char *tmp2 = strtok(tmp1,"=");
 	    char *tmp3 = strtok(NULL,"");
-	    char *tmp4=malloc(sizeof(char)*strlen(tmp2)),*tmp5=malloc(sizeof(char)*strlen(tmp3));
-	    memset(tmp4,0x00,strlen(tmp4));
-	    memset(tmp5,0x00,strlen(tmp5));
-	    strcpy(tmp4,tmp2);
-	    strcpy(tmp5,tmp3);
-	    if(check_alias_command(tmp4, &aVariable) != -1)
-		cover_alias_command(tmp5, &aVariable,check_alias_command(tmp4, &aVariable));
-	    else upload_alias(tmp4, tmp5, &aVariable);
+	    if(tmp3 != NULL) {
+		char *tmp4=malloc(sizeof(char)*strlen(tmp2)),*tmp5=malloc(sizeof(char)*strlen(tmp3));
+		memset(tmp4,0x00,strlen(tmp4));
+		memset(tmp5,0x00,strlen(tmp5));
+		strcpy(tmp4,tmp2);
+		strcpy(tmp5,tmp3);
+		if(check_alias_command(tmp4, &aVariable) != -1)
+		    cover_alias_command(tmp5, &aVariable,check_alias_command(tmp4, &aVariable));
+		else upload_alias(tmp4, tmp5, &aVariable);
+	    }
 	} else if(check_environment_command(input) != -1) {
 	    short num = check_environment_command(input);
 	    if(num == 1) {
