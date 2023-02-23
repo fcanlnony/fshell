@@ -7,6 +7,7 @@
 * Built-in commands(export,alias,unalias,cd)</p>
 * Allow to change environment variables</p>
 * Pipe,History functions</p>
+* list command(list alias)</p>
 
 ### Environment Variables
 <br>"export A=B" _Set A environment variable to B_
