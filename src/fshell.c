@@ -14,6 +14,7 @@
 #include "exec.h"
 #include "alias.h"
 #include "builtin.h"
+#include "list.h"
 
 char *array[] = {NULL},*arrayA[20] = {NULL},*arrayB[20] = {NULL};
 static jmp_buf env;
@@ -34,6 +35,8 @@ int main()
     char path_display[100];
     alias_t aVariable;
     init_alias(&aVariable);
+    universal_t uVariable;
+    uVariable.alias = &aVariable;
     int len = 0;
     setjmp(env);
     while (1) {
@@ -61,7 +64,7 @@ int main()
 	    strcpy(tmp4,tmp2);
 	    strcpy(tmp5,tmp3);
 	    if(check_alias_command(tmp4, &aVariable) != -1)
-	    cover_alias_command(tmp5, &aVariable,check_alias_command(tmp4, &aVariable));
+		cover_alias_command(tmp5, &aVariable,check_alias_command(tmp4, &aVariable));
 	    else upload_alias(tmp4, tmp5, &aVariable);
 	} else if(check_environment_command(input) != -1) {
 	    short num = check_environment_command(input);
@@ -101,6 +104,9 @@ int main()
 		char tmp[len-strlen("cd ")];
 		strcpy(tmp,input+strlen("cd "));
 		cd_command(tmp,pwd->pw_name);
+	    } else if(num == 7) {
+		parsing_nomally(input, array);
+		list_command(array, &uVariable);
 	    }
 	} else {
 	    char tmp1[len];
