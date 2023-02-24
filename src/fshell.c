@@ -108,7 +108,8 @@ int main()
 		cd_command(tmp,pwd->pw_name);
 	    } else if(num == 7) {
 		parsing_nomally(input, array);
-		list_command(array, &uVariable);
+		if(array[1] != NULL)
+		    list_command(array, &uVariable);
 	    }
 	} else {
 	    char tmp1[len];
