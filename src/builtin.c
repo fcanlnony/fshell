@@ -7,7 +7,7 @@
 
 short check_environment_command(char *string)
 {
-    if(!strncmp(string,"export",strlen("export")))
+    if(!strncmp(string,"setenv",strlen("setenv")))
 	return 1;
     else if(!strcmp(string,"cleanenv"))
 	return 2;
