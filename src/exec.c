@@ -41,5 +41,6 @@ short exec_pipe(char **arrayA,char **arrayB)
 	}
     } else if(p > 0)
 	wait(NULL);
+    fflush(stdin);
     return 0;
 }
