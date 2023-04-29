@@ -38,10 +38,10 @@ int main()
     universal_t uVariable;
     uVariable.alias = &aVariable;
     int len = 0;
+    char *display_readline = malloc(sizeof(char)*256);
     setjmp(env);
     while (1) {
 	signal(SIGINT,siginthandler);
-	char *display_readline = malloc(sizeof(char)*256);
 	memset(display_readline,0x00,strlen(display_readline));
 	getcwd(path_display,100);
 	if(strcmp(pwd->pw_name,"root"))
@@ -137,6 +137,5 @@ int main()
 	}
 	write_history(history_file_path);
 	free(input);
-	free(display_readline);
     }
 }
