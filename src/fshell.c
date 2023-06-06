@@ -38,15 +38,14 @@ int main()
     universal_t uVariable;
     uVariable.alias = &aVariable;
     int len = 0;
-    char *display_readline = malloc(sizeof(char)*256);
+    char display_readline[256];
     setjmp(env);
     while (1) {
 	signal(SIGINT,siginthandler);
-	memset(display_readline,0x00,strlen(display_readline));
 	getcwd(path_display,100);
 	if(strcmp(pwd->pw_name,"root"))
 	    sprintf(display_readline, "\033[1;32m%s\033[0m \033[1;32m[\033[0m %s \033[1;32m]\033[0m\n%s", pwd->pw_name,path_display,">>> ");
-	else sprintf(display_readline, "\033[1;31m%s\033[0m \033[1;31m[\033[0m %s \033[1;31m]\033[0m\n%s", pwd->pw_name,path_display,">>> ");
+	else sprintf(display_readline, "\033[1;31m%s\033[0m \033[1;31m[\033[0m %s \033[1;31m]\033[0m\n%s", pwd->pw_name,path_display,">>> ");			 
 	char *input = readline(display_readline);
 	if(strcmp(input,"exit") == 0)
 	    exit(0);
