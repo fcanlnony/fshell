@@ -29,8 +29,8 @@ int main()
     struct passwd *pwd = getpwuid(getuid());
     char history_file_path[154];
     if(!strcmp(pwd->pw_name,"root"))
-	sprintf(history_file_path,"/home/%s/.fshell_history",pwd->pw_name);
-    else strncpy(history_file_path,"/root/.fshell_history",strlen("/root/.fshell_history"));
+	strncpy(history_file_path,"/root/.fshell_history",strlen("/root/.fshell_history"));
+    else sprintf(history_file_path,"/home/%s/.fshell_history",pwd->pw_name);
     read_history(history_file_path);
     char path_display[100];
     alias_t aVariable;
