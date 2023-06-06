@@ -129,9 +129,11 @@ int main()
 	    if (check_pipe(input) == 0) {
 		parsing_pipe(input, arrayA, arrayB);
 		exec_pipe(arrayA, arrayB);
+		sleep(0);
 	    } else {
 		parsing_nomally(input,array);
 		exec_cmd_nomally(array);
+		sleep(0);
 	    }
 	}
 	write_history(history_file_path);
