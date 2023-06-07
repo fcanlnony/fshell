@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <fcntl.h> 
 
 #include "builtin.h"
 
@@ -50,4 +51,9 @@ void cd_command(char *string,char *username)
     } else {
 	chdir(string);
     }
+}
+
+void help()
+{
+    printf("Options:\n  --version,-v print version\n  --help,-h get some help\n");
 }

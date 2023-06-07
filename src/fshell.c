@@ -15,6 +15,7 @@
 #include "alias.h"
 #include "builtin.h"
 #include "list.h"
+#include "fshell.h"
 
 char *array[] = {NULL},*arrayA[20] = {NULL},*arrayB[20] = {NULL};
 static jmp_buf env;
@@ -24,8 +25,20 @@ static void siginthandler()
     longjmp(env, 1);
 }
 
-int main()
+int main(int argc,char **argv)
 {
+    if(argc > 1) {
+	if(argc == 2) {
+	    if(!strcmp(argv[1],"--version") || !strcmp(argv[1],"-v"))
+		printf("Fshell : %s\n",FSHELL_VERSION);
+	    else if(!strcmp(argv[1],"--help") || !strcmp(argv[1],"-h"))
+		help();
+	    else if(!strcmp(argv[1],"--compile-time") || !strcmp(argv[1],"-ct"))
+		printf("[Time:%s Date:%s]\n",__TIME__,__DATE__);
+	    else printf("Unknow option :%s \n",argv[1]);
+	} else help();
+	exit(0);
+    }
     struct passwd *pwd = getpwuid(getuid());
     char history_file_path[154];
     if(!strcmp(pwd->pw_name,"root"))
