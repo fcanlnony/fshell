@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -30,11 +29,11 @@ int main(int argc,char **argv)
     if(argc > 1) {
 	if(argc == 2) {
 	    if(!strcmp(argv[1],"--version") || !strcmp(argv[1],"-v"))
-		printf("Fshell : %s\n",FSHELL_VERSION);
+		printf("fshell %s\n",FSHELL_VERSION);
 	    else if(!strcmp(argv[1],"--help") || !strcmp(argv[1],"-h"))
-		help();
+		list();
 	    else if(!strcmp(argv[1],"--compile-time") || !strcmp(argv[1],"-ct"))
-		printf("[Time:%s Date:%s]\n",__TIME__,__DATE__);
+		printf("Time:%s Date:%s\n",__TIME__,__DATE__);
 	    else printf("Unknow option :%s \n",argv[1]);
 	} else help();
 	exit(0);
