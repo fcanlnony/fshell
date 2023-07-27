@@ -21,13 +21,13 @@ void list_command(char **argv,universal_t *point)
 void list_alias(alias_t *point)
 {
     short i = 0;
-    if(point->alias_num > 0) {
-	while(i < point->alias_num) {
-	    printf("%s => %s\n",point->alias_name[i],point->alias_command[i]);
-	    i += 1;
-	}
-	printf("total : %d\n",point->alias_num);
-    } else printf("total : 0\n");
+    alias_t *current = point->next;
+    while(current != NULL) {
+	printf("%s => %s\n",current->alias_name,current->alias_command);
+	current = current->next;
+	i += 1;
+    }
+    printf("Total: %d\n",i);
 }
 
 void list_help()

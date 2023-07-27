@@ -1,4 +1,3 @@
-CFLAGS="-march=native -O2 -pipe"
 LINKLIB=-lreadline
 CC=gcc -std=c17 ${LINKLIB}
 HEADERS= builtin.c alias.h list.h exec.h parsing.h fshell.h

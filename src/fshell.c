@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -45,10 +46,10 @@ int main(int argc,char **argv)
     else sprintf(history_file_path,"/home/%s/.fshell_history",pwd->pw_name);
     read_history(history_file_path);
     char path_display[100];
-    alias_t aVariable;
-    init_alias(&aVariable);
+    alias_t *aVariable = (struct alias*)malloc(sizeof(struct alias));
+    init_alias(aVariable);
     universal_t uVariable;
-    uVariable.alias = &aVariable;
+    uVariable.alias = aVariable;
     int len = 0;
     char display_readline[256];
     setjmp(env);
@@ -75,9 +76,7 @@ int main(int argc,char **argv)
 		memset(tmp5,0x00,strlen(tmp5));
 		strcpy(tmp4,tmp2);
 		strcpy(tmp5,tmp3);
-		if(check_alias_command(tmp4, &aVariable) != -1)
-		    cover_alias_command(tmp5, &aVariable,check_alias_command(tmp4, &aVariable));
-		else upload_alias(tmp4, tmp5, &aVariable);
+		upload_alias(tmp4, tmp5, aVariable);
 	    }
 	} else if(check_environment_command(input) != -1) {
 	    short num = check_environment_command(input);
@@ -100,7 +99,6 @@ int main(int argc,char **argv)
 		else printf("fshell : %s : Invalid environment variables\n",tmp);
 	    } else if(num == 4) {
 		char *tmp = malloc(sizeof(char)*(len-strlen("removeenv ")));
-		memset(tmp,0x00,strlen(tmp));
 		strcpy(tmp,input+strlen("removeenv "));
 		unsetenv(tmp);
 		free(tmp);
@@ -108,9 +106,8 @@ int main(int argc,char **argv)
 		char *tmp = malloc(sizeof(char)*(len-strlen("unalias ")));
 		memset(tmp,0x00,strlen(tmp));
 		strcpy(tmp,input+strlen("unalias "));
-		short num_unalias = check_alias_command(tmp, &aVariable);
-		if(num_unalias != -1) {
-		    unalias_command(&aVariable, num_unalias);
+		if(getalias_command(tmp, aVariable) != NULL) {
+		    unalias_command(aVariable, tmp);
 		}
 		free(tmp);
 	    } else if(num == 6) {
@@ -124,16 +121,13 @@ int main(int argc,char **argv)
 	    }
 	} else {
 	    char tmp1[len];
-	    memset(tmp1,0x00,len);
 	    strcpy(tmp1,input);
 	    char *tmp2 = strtok(tmp1," ");
-	    if(check_alias_command(tmp2, &aVariable) != -1) {
-		char *alias_char = getalias_command(tmp2, &aVariable);
+	    if(getalias_command(tmp2, aVariable) != NULL) {
+		char *alias_char = getalias_command(tmp2, aVariable);
 		char tmp[len];
-		memset(tmp,0x00,len);
 		strcpy(tmp,input+strlen(tmp2));
 		char tmp3[len-strlen(tmp2)+strlen(alias_char)];
-		memset(tmp3,0x00,strlen(tmp3));
 		strcpy(tmp3,alias_char);
 		strcat(tmp3,tmp);
 		strcpy(input,tmp3);

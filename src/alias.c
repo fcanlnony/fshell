@@ -5,75 +5,65 @@
 
 void init_alias(alias_t *point)
 {
-    short i = 0;
-    while(i < MAX_ALIAS_NUM) {
-	point->alias_name[i] = NULL;
-	point->alias_command[i] = NULL;
-	i++;
-    }
-    point->alias_num = 0;
+    point->alias_name = (char*)malloc(sizeof(char));
+    point->alias_command = (char*)malloc(sizeof(char));
+    point->next = NULL;
 }
 
-short check_alias(char *string)
+inline short check_alias(char *string)
 {
-    if(!strncmp(string,"alias",strlen("alias")))
+    if(!strncmp(string,"alias ",strlen("alias ")))
 	return 0;
     else return -1;
 }
 
-short upload_alias(char *name,char *string,alias_t *point)
+char *getalias_command(char *name,alias_t *point)
 {
-    if(point->alias_num == MAX_ALIAS_NUM)
-	return -1;
-    point->alias_num += 1;
-    point->alias_name[point->alias_num-1] = name;
-    point->alias_command[point->alias_num-1] = string;
+    alias_t *current = point->next;
+    while(current != NULL) {
+	if(!strcmp(name,current->alias_name)) {
+	    return current->alias_command;
+	}
+	current = current->next;
+    }
+    if(current == NULL) {
+	return (char*)NULL;
+    }
+}
+
+short upload_alias(char *name, char *string, alias_t *point)
+{
+    alias_t *current = point;
+    alias_t *current2 = NULL;
+    while(current != NULL) {
+	if(!strcmp(name,current->alias_name)) {
+	    current->alias_command = string;
+	    return 0;
+	}
+	current2 = current;
+	current = current->next;
+    }
+    alias_t *new = (struct alias*)malloc(sizeof(struct alias));
+    init_alias(new);
+    new->alias_name = name;
+    new->alias_command = string;
+    current2->next = new;
+    current = current2->next;
     return 0;
 }
 
-char *getalias_command(char *name,alias_t *point)
+short unalias_command(alias_t *point,char *name)
 {
-    short i = 0;
-    while(point->alias_name[i] != NULL) {
-	if(!strcmp(point->alias_name[i],name)) {
-	    return point->alias_command[i];
+    alias_t *current = point->next;
+    alias_t *current2 = current;
+    while(current != NULL) {
+	if(!strcmp(name,current->alias_name)) {
+	    current2 = current->next;
+	    current = current2;
+	    return 0;
 	}
-	i++;
+	current2 = current;
+	current = current->next;
     }
-    return (char *)NULL;
-}
-
-short check_alias_command(char *name,alias_t *point)
-{
-    short i = 0,t = -1;
-    while(point->alias_name[i] != NULL) {
-	if(!strcmp(point->alias_name[i],name)) {
-	    t = i;
-	    return t;
-	}
-	i++;
-    }
-    return t;
-}
-
-void cover_alias_command(char *string,alias_t *point,short num)
-{
-    point->alias_command[num] = string;
-}
-
-void unalias_command(alias_t *point,short num)
-{
-    short i = num + 1;
-    if(point->alias_name[i] != NULL) {
-	while(point->alias_name[i] != NULL) {
-	    point->alias_name[num] = point->alias_name[i];
-	    point->alias_command[num] = point->alias_command[i];
-	    num++;
-	    i++;
-	}
-    } else {
-	point->alias_name[num] = NULL;
-	point->alias_command[num] = NULL;
-    }
-    point->alias_num -= 1;
+    return -1;
 }
