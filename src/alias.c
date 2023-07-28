@@ -1,69 +1,62 @@
 #include <string.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #include "alias.h"
 
-void init_alias(alias_t *point)
+alias_t* init_alias(char *name,char *command)
 {
-    point->alias_name = (char*)malloc(sizeof(char));
-    point->alias_command = (char*)malloc(sizeof(char));
-    point->next = NULL;
+    alias_t* new = (struct alias*)malloc(sizeof(struct alias));
+    new->alias_name = name;
+    new->alias_command = command;
+    new->next = NULL;
+    return new;
 }
 
-inline short check_alias(char *string)
+inline bool check_alias(char *command)
 {
-    if(!strncmp(string,"alias ",strlen("alias ")))
-	return 0;
-    else return -1;
+    if(!strncmp(command,"alias ",strlen("alias ")))
+	return true;
+    else return false;
 }
 
 char *getalias_command(char *name,alias_t *point)
 {
     alias_t *current = point->next;
-    while(current != NULL) {
+    for(;current != NULL;current = current->next) {
 	if(!strcmp(name,current->alias_name)) {
 	    return current->alias_command;
 	}
-	current = current->next;
     }
-    if(current == NULL) {
-	return (char*)NULL;
-    }
+    return (char*)NULL;
 }
 
-short upload_alias(char *name, char *string, alias_t *point)
+short upload_alias(char *name, char *command, alias_t *point)
 {
     alias_t *current = point;
-    alias_t *current2 = NULL;
-    while(current != NULL) {
+    alias_t *prev = NULL;
+    for(;current != NULL;prev = current,current = current->next) {
 	if(!strcmp(name,current->alias_name)) {
-	    current->alias_command = string;
+	    current->alias_command = command;
 	    return 0;
 	}
-	current2 = current;
-	current = current->next;
     }
-    alias_t *new = (struct alias*)malloc(sizeof(struct alias));
-    init_alias(new);
-    new->alias_name = name;
-    new->alias_command = string;
-    current2->next = new;
-    current = current2->next;
+    alias_t *new = init_alias(name, command);
+    prev->next = new;
+    current = prev->next;
     return 0;
 }
 
 short unalias_command(alias_t *point,char *name)
 {
     alias_t *current = point->next;
-    alias_t *current2 = current;
-    while(current != NULL) {
+    alias_t *prev = current;
+    for(;current != NULL;prev = current,current = current->next) {
 	if(!strcmp(name,current->alias_name)) {
-	    current2 = current->next;
-	    current = current2;
+	    prev = current->next;
+	    current = prev;
 	    return 0;
 	}
-	current2 = current;
-	current = current->next;
     }
     return -1;
 }

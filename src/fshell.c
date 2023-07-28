@@ -9,6 +9,7 @@
 #include <signal.h>
 #include <setjmp.h>
 #include <pwd.h>
+#include <stdbool.h>
 
 #include "parsing.h"
 #include "exec.h"
@@ -47,7 +48,7 @@ int main(int argc,char **argv)
     read_history(history_file_path);
     char path_display[100];
     alias_t *aVariable = (struct alias*)malloc(sizeof(struct alias));
-    init_alias(aVariable);
+    aVariable->next = NULL;
     universal_t uVariable;
     uVariable.alias = aVariable;
     int len = 0;
@@ -64,7 +65,7 @@ int main(int argc,char **argv)
 	    exit(0);
 	add_history(input);
 	len = strlen(input);
-	if(check_alias(input) == 0) {
+	if(check_alias(input) == true) {
 	    char tmp1[len];
 	    memset(tmp1,0x00,len);
 	    memmove(tmp1, input+strlen("alias "), len);
