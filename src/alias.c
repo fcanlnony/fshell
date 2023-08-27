@@ -53,7 +53,8 @@ short unalias_command(alias_t *point,char *name)
     alias_t *prev = current;
     for(;current != NULL;prev = current,current = current->next) {
 	if(!strcmp(name,current->alias_name)) {
-	    prev = current->next;
+	    prev->next = current->next;
+	    free(current);
 	    current = prev;
 	    return 0;
 	}
