@@ -1,5 +1,5 @@
 # Fcanlnony's Shell
-
+<br> Rewrite Version: https://github.com/fcanlnony/fshell2
 ## Introduction
 <br>fshell is a simple shell write in C,it's designed to be easy to read.
 
